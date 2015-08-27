@@ -48,19 +48,7 @@ public class AddMyComments extends HttpServlet {
 			model.DBUtil.insert(user);
 			
 
-			String q="select t from My_Twitter t order by t.id desc";
-
-			TypedQuery<My_Twitter>bq =em.createQuery(q,My_Twitter.class);
-
-			List<My_Twitter> list=bq.getResultList();
-
-			for(My_Twitter temp:list)
-
-			message+=temp.getComments()+" By "+temp.getName()+"<br>";
-
-			request.setAttribute("message", message);
-
-		 getServletContext().getRequestDispatcher("/output.jsp").forward(request, response);
+		 getServletContext().getRequestDispatcher("/ViewComments").forward(request, response);
 
 		}catch(Exception e)
 		{

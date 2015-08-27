@@ -38,17 +38,26 @@ public class validate extends HttpServlet {
 		 EntityTransaction trans = em.getTransaction();
 		String username =request.getParameter("username");
 		String password =request.getParameter("password");
-		 String q="SELECT c FROM TwitterUser c WHERE c.name = '"+username+"'";
-		TypedQuery<TwitterUser>bq =em.createQuery(q,TwitterUser.class);
-		List<TwitterUser> list=bq.getResultList();
-		String pass=null;
-		for(TwitterUser temp:list)
+		
+		if(password!=null && username!=null)
+		{
+			String q="SELECT c FROM TwitterUser c WHERE c.name = '"+username+"'";
+			TypedQuery<TwitterUser>bq =em.createQuery(q,TwitterUser.class);
+			List<TwitterUser> list=bq.getResultList();
+			String pass=null;
+			for(TwitterUser temp:list)
 			pass=temp.getPassword();
 		
-		if(pass.equals(password))
+			if(pass==null)
+			{
+				getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+			}
+			else
+				getServletContext().getRequestDispatcher("/addcomment.html").forward(request, response);
+		}
+		else
 		{
-			
-			 getServletContext().getRequestDispatcher("/addcomment.html").forward(request, response);
+			getServletContext().getRequestDispatcher("/index.html").forward(request, response);
 		}
 		 em.close();
 	}
